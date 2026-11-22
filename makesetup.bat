@@ -43,9 +43,11 @@ echo @echo off > "%~dp0temp\Install.bat"
 echo cls >> "%~dp0temp\Install.bat"
 echo title %pn% Setup >> "%~dp0temp\Install.bat"
 echo echo %pn% Setup >> "%~dp0temp\Install.bat"
+echo tar -xf "%%0" -C "%%temp%%" "LICENSE.txt" >> "%~dp0temp\Install.bat"
 echo echo. >> "%~dp0temp\Install.bat"
 echo echo Please review this software license agreement. >> "%~dp0temp\Install.bat"
-echo type "Setup\license.txt" >> "%~dp0temp\Install.bat"
+echo echo. >> "%~dp0temp\Install.bat"
+echo type "%%temp%%\LICENSE.txt" >> "%~dp0temp\Install.bat"
 echo echo. >> "%~dp0temp\Install.bat"
 echo echo Press any key to agree >> "%~dp0temp\Install.bat"
 echo pause ^>nul >> "%~dp0temp\Install.bat"
@@ -58,9 +60,9 @@ echo echo Start installion >> "%~dp0temp\Install.bat"
 echo echo. >> "%~dp0temp\Install.bat"
 echo echo Copying files >> "%~dp0temp\Install.bat"
 echo md "%%dir%%" >> "%~dp0temp\Install.bat"
-echo xcopy /e /h /i /r /y "Setup" "%%dir%%" >> "%~dp0temp\Install.bat"
-echo "Setup\pecmd.exe" LINK %%userprofile%%\Desktop\%pn%,%%dir%%\%main% >> "%~dp0temp\Install.bat"
-echo "Setup\pecmd.exe" LINK %%ProgramData%%\Microsoft\Windows\Start Menu\Programs\%pn%,%%dir%%\%main% >> "%~dp0temp\Install.bat"
+echo tar -xf "%%0" -C "%%dir%%" >> "%~dp0temp\Install.bat"
+echo "%%dir%%\pecmd.exe" LINK %%userprofile%%\Desktop\%pn%,%%dir%%\%main% >> "%~dp0temp\Install.bat"
+echo "%%dir%%\pecmd.exe" LINK %%ProgramData%%\Microsoft\Windows\Start Menu\Programs\%pn%,%%dir%%\%main% >> "%~dp0temp\Install.bat"
 echo echo. >> "%~dp0temp\Install.bat"
 echo echo Configuration registry >> "%~dp0temp\Install.bat"
 echo reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\%pn%" /f >> "%~dp0temp\Install.bat"
@@ -92,7 +94,11 @@ echo reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\%pn%" 
 echo rd /s /q "%%~dp0" >> "%~dp0temp\Setup\unis000.bat"
 echo.
 echo Making installer
-Bat_To_Exe_Converter_x64 /bat "%~dp0temp\Install.bat" /exe "%out%" /x64 /include "%~dp0temp\Setup" /uac-admin /Company %cn% /Description %fd% /FileVersion %fv% /Copyright %lc% /ProductName %pn% /ProductVersion %pv%
+Bat_To_Exe_Converter_x64 /bat "%~dp0temp\Install.bat" /exe "%~dp0temp\archive.exe" /x64 /uac-admin /Company %cn% /Description %fd% /FileVersion %fv% /Copyright %lc% /ProductName %pn% /ProductVersion %pv%
+pushd "%~dp0temp\Setup"
+tar -caf "%~dp0temp\setup.zip" *
+popd
+copy /b "%~dp0temp\archive.exe" + "%~dp0temp\setup.zip" "%out%"
 rd /s /q "%~dp0temp"
 echo.
 echo Finshed
