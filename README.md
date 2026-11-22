@@ -1,3 +1,8 @@
 # Cli_Setup
-Under Construction...
 A Command-Line Setup Maker
+
+# How to use?
+**NOTE**: All questions must nswer.<br>
+Needs select "Setup" folder.<br>
+License txt name must set "license.txt"<br>
+First version may be bugs.
