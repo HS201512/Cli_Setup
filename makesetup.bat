@@ -93,7 +93,12 @@ echo cd.. >> "%~dp0temp\Setup\unis000.bat"
 echo del "%%userprofile%%\Desktop\%pn%.lnk" >> "%~dp0temp\Setup\unis000.bat"
 echo del "%%ProgramData%%\Microsoft\Windows\Start Menu\Programs\%pn%.lnk" >> "%~dp0temp\Setup\unis000.bat"
 echo reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\%pn%" /va /f >> "%~dp0temp\Setup\unis000.bat"
-echo rd /s /q "%%~dp0" >> "%~dp0temp\Setup\unis000.bat"
+echo start "" "%%~dp0unis001.bat" >> "%~dp0temp\Setup\unis000.bat"
+echo exit /b >> "%~dp0temp\Setup\unis000.bat"
+echo @echo off > "%~dp0temp\Setup\unis001.bat"
+echo timeout /t 3 /nobreak ^>nul >> "%~dp0temp\Setup\unis001.bat"
+echo cd.. >> "%~dp0temp\Setup\unis001.bat"
+echo rd /s /q "%%~dp0" >> "%~dp0temp\Setup\unis001.bat"
 echo.
 echo Making installer
 Bat_To_Exe_Converter_4.2 /bat "%~dp0temp\Install.bat" /exe "%~dp0temp\archive.exe" /x64 /uac-admin /Company "%cn%" /Description "%fd%" /FileVersion "%fv%" /Copyright "%lc%" /ProductName "%pn%" /ProductVersion "%pv%"
